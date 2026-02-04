@@ -25,7 +25,6 @@
             overflow: hidden;
         }
 
-        /* Latar Belakang Dekoratif */
         .bg-ornaments {
             position: fixed;
             top: 0;
@@ -36,7 +35,6 @@
             pointer-events: none;
         }
 
-        /* Card Utama */
         .card {
             background: var(--white-glass);
             backdrop-filter: blur(15px);
@@ -91,7 +89,6 @@
             border: 2px solid var(--soft-pink);
         }
 
-        /* Halaman Selebrasi */
         .celebration {
             display: none;
             z-index: 20;
@@ -112,7 +109,6 @@
             margin: 10px 0;
         }
 
-        /* Animasi Partikel Hati */
         .particle {
             position: absolute;
             pointer-events: none;
@@ -130,7 +126,6 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
-        /* Hiasan Bunga statis di pojok */
         .corner-flower {
             position: fixed;
             font-size: 3rem;
@@ -140,6 +135,10 @@
     </style>
 </head>
 <body>
+
+    <audio id="mySong" loop>
+        <source src="musik.mp3" type="audio/mpeg">
+    </audio>
 
     <div class="bg-ornaments" id="bgLayer">
         <span class="corner-flower" style="top: 10px; left: 10px;">🌸</span>
@@ -170,10 +169,10 @@
         const mainCard = document.getElementById('mainCard');
         const celebrationPage = document.getElementById('celebrationPage');
         const bgLayer = document.getElementById('bgLayer');
+        const song = document.getElementById('mySong');
 
         let scaleFactor = 1;
 
-        // Fungsi membuat elemen terbang (Hati/Bunga)
         function spawnParticle(symbol, isBurst = false) {
             const particle = document.createElement('div');
             particle.className = 'particle';
@@ -188,7 +187,6 @@
             particle.style.left = Math.random() * 100 + 'vw';
             particle.style.fontSize = Math.random() * 20 + 20 + 'px';
             
-            // Variasi warna pink/merah untuk hati
             if(symbol === '❤️') {
                 const colors = ['#ff4d6d', '#ff758f', '#ff85a1', '#c9184a'];
                 particle.style.color = colors[Math.floor(Math.random() * colors.length)];
@@ -198,14 +196,17 @@
             setTimeout(() => particle.remove(), duration * 1000);
         }
 
-        // Background hiasan otomatis (lambat)
         setInterval(() => {
             const charms = ['❤️', '🌸', '✨', '☁️', '🌷'];
             spawnParticle(charms[Math.floor(Math.random() * charms.length)]);
         }, 500);
 
-        // Logika tombol "Gaa mauu"
-        noBtn.addEventListener('mouseover', () => {
+        function playMusic() {
+            song.play().catch(error => console.log("Menunggu interaksi user untuk memutar musik"));
+        }
+
+        function moveButton() {
+            playMusic(); // Musik mulai saat tombol "No" disentuh/didekati
             const x = Math.random() * (window.innerWidth - noBtn.offsetWidth);
             const y = Math.random() * (window.innerHeight - noBtn.offsetHeight);
             
@@ -213,16 +214,24 @@
             noBtn.style.left = x + 'px';
             noBtn.style.top = y + 'px';
             
-            scaleFactor += 0.4; // Lebih cepat besar
+            scaleFactor += 0.4;
             yesBtn.style.transform = `scale(${scaleFactor})`;
+        }
+
+        // Event Laptop
+        noBtn.addEventListener('mouseover', moveButton);
+
+        // Event HP agar tidak langsung klik
+        noBtn.addEventListener('touchstart', (e) => {
+            e.preventDefault();
+            moveButton();
         });
 
-        // Logika tombol "Yaa"
         yesBtn.addEventListener('click', () => {
+            playMusic();
             mainCard.style.display = 'none';
             celebrationPage.style.display = 'block';
             
-            // Ledakan hati besar-besaran
             for(let i = 0; i < 150; i++) {
                 setTimeout(() => {
                     spawnParticle('❤️', true);
@@ -232,4 +241,4 @@
         });
     </script>
 </body>
-</html>
+</html> 
