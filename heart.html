@@ -11,20 +11,20 @@
             --soft-pink: #ffb3c1;
             --dark-pink: #c9184a;
             --white-glass: rgba(255, 255, 255, 0.25);
-            --envelope-color: #ff758f;
         }
 
         body {
             margin: 0;
             padding: 0;
             min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
             background: linear-gradient(135deg, #ffafbd 0%, #ffc3a0 100%, #ffecd2 100%);
             font-family: 'Poppins', sans-serif;
-            overflow-x: hidden; /* Mencegah geser kanan-kiri */
-            scroll-behavior: smooth;
+            overflow: hidden;
         }
 
-        /* Latar Belakang */
         .bg-ornaments {
             position: fixed;
             top: 0;
@@ -33,16 +33,6 @@
             height: 100%;
             z-index: -1;
             pointer-events: none;
-        }
-
-        /* Section Container */
-        .section {
-            height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            flex-direction: column;
-            position: relative;
         }
 
         .card {
@@ -57,6 +47,7 @@
             max-width: 90%;
             width: 500px;
             z-index: 10;
+            animation: fadeIn 1s ease-out;
         }
 
         h1 {
@@ -83,98 +74,39 @@
             border-radius: 60px;
             cursor: pointer;
             transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 8px 15px rgba(0,0,0,0.1);
         }
 
-        #yesBtn { background: var(--primary-pink); color: white; }
-        #noBtn { background: white; color: var(--primary-pink); border: 2px solid var(--soft-pink); }
-
-        /* Gaya Amplop */
-        #envelope-section {
-            display: none; /* Muncul setelah klik Ya */
+        #yesBtn {
+            background: linear-gradient(45deg, #ff4d6d, #ff758f);
+            color: white;
+            z-index: 100;
         }
 
-        .envelope-wrapper {
-            position: relative;
-            cursor: pointer;
-            margin-top: 50px;
+        #noBtn {
+            background-color: #fff;
+            color: var(--primary-pink);
+            border: 2px solid var(--soft-pink);
         }
 
-        .envelope {
-            position: relative;
-            width: 250px;
-            height: 160px;
-            background: var(--envelope-color);
-            border-radius: 0 0 10px 10px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        .celebration {
+            display: none;
+            z-index: 20;
         }
 
-        /* Penutup Amplop */
-        .envelope::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            z-index: 4;
-            border-top: 90px solid #ff85a1;
-            border-left: 125px solid transparent;
-            border-right: 125px solid transparent;
-            transform-origin: top;
-            transition: all 0.5s ease;
-        }
-
-        .envelope.open::before {
-            transform: rotateX(180deg);
-            z-index: 0;
-        }
-
-        /* Kertas Surat */
-        .letter {
-            position: absolute;
-            bottom: 10px;
-            left: 10px;
-            width: 230px;
-            height: 140px;
-            background: white;
-            z-index: 2;
-            transition: all 0.5s ease;
-            padding: 20px;
-            box-sizing: border-box;
-            text-align: center;
-            border-radius: 5px;
-        }
-
-        .envelope.open .letter {
-            transform: translateY(-100px);
-            height: 250px;
-            z-index: 5;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-        }
-
-        .letter p {
+        .celebration h2 {
             font-family: 'Sacramento', cursive;
+            font-size: 6rem;
+            color: var(--dark-pink);
+            margin: 0;
+            filter: drop-shadow(2px 4px 6px rgba(0,0,0,0.1));
+        }
+
+        .celebration p {
             font-size: 1.8rem;
-            color: var(--dark-pink);
-            margin: 5px 0;
-        }
-
-        .letter span {
-            font-size: 0.9rem;
-            color: #555;
-            display: block;
-            margin-top: 10px;
-            font-family: 'Poppins', sans-serif;
-        }
-
-        .scroll-hint {
-            color: var(--dark-pink);
+            color: #800f2f;
             font-weight: 600;
-            margin-bottom: 20px;
-            animation: bounce 2s infinite;
-        }
-
-        @keyframes bounce {
-            0%, 20%, 50%, 80%, 100% {transform: translateY(0);}
-            40% {transform: translateY(-10px);}
-            60% {transform: translateY(-5px);}
+            margin: 10px 0;
         }
 
         .particle {
@@ -189,7 +121,17 @@
             100% { transform: translateY(-20vh) rotate(360deg) scale(var(--s)); opacity: 0; }
         }
 
-        .corner-flower { position: fixed; font-size: 3rem; opacity: 0.6; z-index: -1; }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .corner-flower {
+            position: fixed;
+            font-size: 3rem;
+            opacity: 0.6;
+            z-index: -1;
+        }
     </style>
 </head>
 <body>
@@ -205,37 +147,27 @@
         <span class="corner-flower" style="bottom: 10px; right: 10px;">🎀</span>
     </div>
 
-    <div class="section" id="page1">
-        <div class="card" id="mainCard">
-            <h1>Jadi Valentine-ku, nona?</h1>
-            <div class="buttons">
-                <button id="yesBtn">Yaa! ❤️</button>
-                <button id="noBtn">Gaa mauu</button>
-            </div>
+    <div class="card" id="mainCard">
+        <h1>Jadi Valentine-ku, nona?</h1>
+        <div class="buttons">
+            <button id="yesBtn">Yaa! ❤️</button>
+            <button id="noBtn">Gaa mauu</button>
         </div>
     </div>
 
-    <div class="section" id="envelope-section">
-        <p class="scroll-hint">Scroll kebawah yaa... ↓</p>
-        <div class="envelope-wrapper" id="envelopeWrapper">
-            <div class="envelope" id="envelopeBody">
-                <div class="letter">
-                    <p>Hai Nona...</p>
-                    <span>Terima kasih ya sudah mau menerima tawaranku. Kamu membuat hari ini jadi sangat spesial!</span>
-                    <p>I Love You ❤️</p>
-                </div>
-            </div>
-        </div>
-        <div style="margin-top: 120px; text-align: center;">
-             <h2 style="font-family: 'Sacramento'; color: var(--dark-pink); font-size: 3rem;">Yeayyy! ❤️</h2>
+    <div class="celebration" id="celebrationPage">
+        <div class="card">
+            <h2>Yeayyy! ❤️</h2>
+            <p>Aku orang paling beruntung!</p>
+            <p style="font-size: 2.5rem; color: var(--primary-pink);">I LOVE YOU SAYANGG!!! ✨</p>
         </div>
     </div>
 
     <script>
         const yesBtn = document.getElementById('yesBtn');
         const noBtn = document.getElementById('noBtn');
-        const envelopeSection = document.getElementById('envelope-section');
-        const envelopeBody = document.getElementById('envelopeBody');
+        const mainCard = document.getElementById('mainCard');
+        const celebrationPage = document.getElementById('celebrationPage');
         const bgLayer = document.getElementById('bgLayer');
         const song = document.getElementById('mySong');
 
@@ -245,56 +177,68 @@
             const particle = document.createElement('div');
             particle.className = 'particle';
             particle.innerHTML = symbol;
+            
             const size = Math.random() * (isBurst ? 3 : 1.5) + 1;
             const duration = Math.random() * 3 + 2;
+            
             particle.style.setProperty('--s', size);
             particle.style.setProperty('--d', duration + 's');
+            
             particle.style.left = Math.random() * 100 + 'vw';
             particle.style.fontSize = Math.random() * 20 + 20 + 'px';
+            
+            if(symbol === '❤️') {
+                const colors = ['#ff4d6d', '#ff758f', '#ff85a1', '#c9184a'];
+                particle.style.color = colors[Math.floor(Math.random() * colors.length)];
+            }
+
             bgLayer.appendChild(particle);
             setTimeout(() => particle.remove(), duration * 1000);
         }
 
         setInterval(() => {
-            const charms = ['❤️', '🌸', '✨', '🌷'];
+            const charms = ['❤️', '🌸', '✨', '☁️', '🌷'];
             spawnParticle(charms[Math.floor(Math.random() * charms.length)]);
         }, 500);
 
         function playMusic() {
-            song.play().catch(() => {});
+            song.play().catch(error => console.log("Menunggu interaksi user untuk memutar musik"));
         }
 
         function moveButton() {
-            playMusic();
+            playMusic(); // Musik mulai saat tombol "No" disentuh/didekati
             const x = Math.random() * (window.innerWidth - noBtn.offsetWidth);
             const y = Math.random() * (window.innerHeight - noBtn.offsetHeight);
+            
             noBtn.style.position = 'fixed';
             noBtn.style.left = x + 'px';
             noBtn.style.top = y + 'px';
+            
             scaleFactor += 0.4;
             yesBtn.style.transform = `scale(${scaleFactor})`;
         }
 
+        // Event Laptop
         noBtn.addEventListener('mouseover', moveButton);
-        noBtn.addEventListener('touchstart', (e) => { e.preventDefault(); moveButton(); });
+
+        // Event HP agar tidak langsung klik
+        noBtn.addEventListener('touchstart', (e) => {
+            e.preventDefault();
+            moveButton();
+        });
 
         yesBtn.addEventListener('click', () => {
             playMusic();
-            envelopeSection.style.display = 'flex';
-            // Scroll otomatis ke bawah
-            setTimeout(() => {
-                window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
-            }, 100);
-
-            for(let i = 0; i < 100; i++) {
-                setTimeout(() => spawnParticle('❤️', true), i * 20);
+            mainCard.style.display = 'none';
+            celebrationPage.style.display = 'block';
+            
+            for(let i = 0; i < 150; i++) {
+                setTimeout(() => {
+                    spawnParticle('❤️', true);
+                    if(i % 5 === 0) spawnParticle('✨', true);
+                }, i * 20);
             }
-        });
-
-        // Buka Amplop saat diklik
-        envelopeBody.addEventListener('click', () => {
-            envelopeBody.classList.toggle('open');
         });
     </script>
 </body>
-</html>
+</html> 
