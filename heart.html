@@ -4,141 +4,263 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>For My Valentine</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&family=Sacramento&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&family=Sacramento&family=Reenie+Beanie&display=swap" rel="stylesheet">
     <style>
         :root {
             --primary-pink: #ff4d6d;
             --soft-pink: #ffb3c1;
             --dark-pink: #c9184a;
             --white-glass: rgba(255, 255, 255, 0.25);
+            --envelope-color: #ff758f;
         }
 
         body {
-            margin: 0;
-            padding: 0;
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
+            margin: 0; padding: 0; min-height: 100vh;
+            display: flex; flex-direction: column; align-items: center;
             background: linear-gradient(135deg, #ffafbd 0%, #ffc3a0 100%, #ffecd2 100%);
             font-family: 'Poppins', sans-serif;
-            overflow: hidden;
+            overflow-x: hidden;
+            scroll-behavior: smooth;
         }
 
-        .bg-ornaments {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
-            pointer-events: none;
+        /* --- LOVE TOAST --- */
+        .love-toast {
+            position: fixed; padding: 10px 20px;
+            background: rgba(255, 77, 109, 0.9); color: white;
+            border-radius: 50px; font-size: 0.9rem; font-weight: 600;
+            pointer-events: none; z-index: 1000;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            animation: toastAnim 2s ease-out forwards; white-space: nowrap;
+        }
+
+        @keyframes toastAnim {
+            0% { opacity: 0; transform: translate(-50%, 0) scale(0.5); }
+            20% { opacity: 1; transform: translate(-50%, -20px) scale(1); }
+            80% { opacity: 1; transform: translate(-50%, -50px) scale(1); }
+            100% { opacity: 0; transform: translate(-50%, -70px) scale(0.8); }
+        }
+
+        /* --- TIMER STYLE --- */
+        .counter-container {
+            margin: 50px auto 20px auto; padding: 20px;
+            background: rgba(255, 255, 255, 0.3); backdrop-filter: blur(10px);
+            border-radius: 25px; border: 1px solid rgba(255,255,255,0.5);
+            text-align: center; width: 90%; max-width: 400px;
+        }
+        .timer { display: flex; justify-content: space-around; gap: 5px; }
+        .timer-box { background: white; padding: 10px; border-radius: 15px; min-width: 70px; box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
+        .timer-box span { display: block; color: var(--primary-pink); font-weight: bold; font-size: 1.3rem; }
+        .timer-box small { font-size: 0.7rem; color: #888; text-transform: uppercase; }
+
+        .closing-text {
+            font-family: 'Sacramento', cursive;
+            font-size: 3rem;
+            color: var(--dark-pink);
+            text-align: center;
+            margin-bottom: 100px;
+            text-shadow: 2px 2px rgba(255, 255, 255, 0.5);
+        }
+
+        /* --- POLAROID GALLERY --- */
+        .gallery-section {
+            width: 100%; padding: 50px 0 20px 0;
+            display: flex; flex-direction: column; align-items: center;
+            overflow: hidden; position: relative;
+        }
+
+        .polaroid-container {
+            position: relative; width: 100%; max-width: 800px; height: 500px;
+            margin-top: 50px;
+        }
+
+        .polaroid {
+            position: absolute; width: 180px; padding: 10px 10px 35px 10px;
+            background: white; box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+            border-radius: 3px; cursor: grab; transition: transform 0.3s ease;
+            user-select: none; z-index: 5;
+        }
+
+        .polaroid:active { cursor: grabbing; z-index: 100 !important; }
+        .polaroid img { width: 100%; height: 180px; object-fit: cover; border: 1px solid #eee; pointer-events: none; }
+        .polaroid span {
+            display: block; text-align: center;
+            font-family: 'Reenie Beanie', cursive; font-size: 1.8rem;
+            color: #333; margin-top: 10px; pointer-events: none;
+        }
+
+        .bg-ornaments { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; pointer-events: none; }
+
+        .section {
+            min-height: 100vh; width: 100%;
+            display: flex; justify-content: center; align-items: center;
+            flex-direction: column; position: relative;
         }
 
         .card {
-            background: var(--white-glass);
-            backdrop-filter: blur(15px);
-            -webkit-backdrop-filter: blur(15px);
-            border: 2px solid rgba(255, 255, 255, 0.5);
-            padding: 60px 40px;
-            border-radius: 40px;
-            box-shadow: 0 15px 35px rgba(201, 24, 74, 0.2);
-            text-align: center;
-            max-width: 90%;
-            width: 500px;
-            z-index: 10;
-            animation: fadeIn 1s ease-out;
+            background: var(--white-glass); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px);
+            border: 2px solid rgba(255, 255, 255, 0.5); padding: 40px 30px; border-radius: 40px;
+            box-shadow: 0 15px 35px rgba(201, 24, 74, 0.2); text-align: center;
+            max-width: 85%; width: 450px; z-index: 10;
         }
 
-        h1 {
-            font-family: 'Sacramento', cursive;
-            font-size: 5rem;
-            color: var(--dark-pink);
-            margin: 0 0 40px 0;
-            text-shadow: 2px 2px 0px rgba(255, 255, 255, 0.5);
-        }
+        h1 { font-family: 'Sacramento', cursive; font-size: 4rem; color: var(--dark-pink); margin-bottom: 20px; }
+        h2 { font-family: 'Sacramento', cursive; font-size: 5rem; color: var(--dark-pink); margin: 0; }
 
-        .buttons {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 25px;
-            min-height: 200px;
-        }
+        .buttons { display: flex; justify-content: center; align-items: center; gap: 20px; min-height: 150px; }
 
         button {
-            padding: 18px 45px;
-            font-size: 1.5rem;
-            font-weight: 600;
-            border: none;
-            border-radius: 60px;
-            cursor: pointer;
-            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            box-shadow: 0 8px 15px rgba(0,0,0,0.1);
+            padding: 15px 35px; font-size: 1.2rem; font-weight: 600; border: none; border-radius: 60px;
+            cursor: pointer; transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
 
-        #yesBtn {
-            background: linear-gradient(45deg, #ff4d6d, #ff758f);
-            color: white;
-            z-index: 100;
+        #yesBtn { background: linear-gradient(45deg, #ff4d6d, #ff758f); color: white; }
+        #noBtn { background-color: #fff; color: var(--primary-pink); border: 2px solid var(--soft-pink); }
+
+        .celebration { display: none; width: 100%; flex-direction: column; align-items: center; }
+        .celebration p { font-size: 1.5rem; color: #800f2f; font-weight: 600; margin: 10px 0; text-align: center; }
+
+        .scroll-hint { margin-top: 20px; color: var(--dark-pink); font-weight: 600; animation: bounce 2s infinite; }
+
+        /* AREA AMPLOP */
+        .envelope-section { margin-top: 150px; margin-bottom: 150px; display: flex; flex-direction: column; align-items: center; perspective: 1500px; }
+        .instruction { color: var(--dark-pink); font-weight: bold; font-size: 1.5rem; margin-bottom: 40px; text-shadow: 1px 1px white; text-align: center; }
+        .envelope-wrapper { position: relative; width: 320px; height: 220px; background: var(--envelope-color); border-radius: 0 0 15px 15px; box-shadow: 0 20px 50px rgba(0,0,0,0.2); cursor: pointer; }
+        .flap { position: absolute; top: 0; left: 0; width: 0; height: 0; border-left: 160px solid transparent; border-right: 160px solid transparent; border-top: 120px solid #ff85a1; transform-origin: top; z-index: 4; transition: transform 0.7s ease; }
+        .envelope-front { position: absolute; bottom: 0; left: 0; width: 100%; height: 100%; background: var(--envelope-color); border-radius: 0 0 15px 15px; z-index: 3; clip-path: polygon(0 0, 160px 110px, 320px 0, 320px 220px, 0 220px); }
+        .letter { position: absolute; bottom: 10px; left: 5%; width: 90%; height: 90%; background: #fff; border-radius: 10px; padding: 20px; box-sizing: border-box; text-align: center; z-index: 2; transition: all 1s cubic-bezier(0.4, 0, 0.2, 1.2); opacity: 0; transform: translateY(0) scale(0.8); border: 1px solid #eee; display: flex; flex-direction: column; overflow-y: auto; }
+        .letter .title { font-family: 'Sacramento', cursive; font-size: 2.2rem; color: var(--dark-pink); margin: 0 0 15px 0; }
+        .letter .content { font-size: 0.9rem; color: #444; line-height: 1.5; text-align: center; margin-bottom: 20px; flex-grow: 1; }
+        .letter .signature { text-align: right; font-family: 'Sacramento', cursive; color: var(--dark-pink); margin-top: 10px; border-top: 1px dashed #ffd1dc; padding-top: 5px; }
+        .letter .signature .name { font-size: 1.6rem; margin: -5px 0 0 0; font-weight: bold; }
+        .envelope-wrapper.open .flap { transform: rotateX(180deg); z-index: 1; }
+        .envelope-wrapper.open .letter { opacity: 1; transform: translateY(-180px) scale(1.4); z-index: 50; height: 320px; width: 100%; left: 0; box-shadow: 0 20px 50px rgba(0,0,0,0.3); padding: 25px; }
+
+        /* BAGIAN MEMORY REVEAL */
+        .memory-section { padding: 0 0 100px 0; width: 100%; display: flex; flex-direction: column; align-items: center; }
+        .memory-grid { display: flex; justify-content: center; gap: 40px; flex-wrap: wrap; width: 100%; transition: all 0.5s ease; }
+        .memory-box-container { position: relative; width: 280px; height: 380px; transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+        .memory-box-container:hover { transform: translateY(-15px) scale(1.05) rotate(2deg); z-index: 20; }
+        .memory-box-container.hidden { opacity: 0; pointer-events: none; transform: scale(0.8); position: absolute; }
+        .memory-card { width: 100%; height: 100%; background: white; border-radius: 20px; box-shadow: 0 10px 20px rgba(0,0,0,0.1); cursor: pointer; overflow: hidden; position: relative; border: 5px solid white; z-index: 10; }
+        .card-cover { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: var(--primary-pink); display: flex; flex-direction: column; justify-content: center; align-items: center; color: white; z-index: 11; transition: transform 1s cubic-bezier(0.4, 0, 0.2, 1); }
+        .memory-card img { width: 100%; height: 100%; object-fit: cover; }
+        .memo-card { position: absolute; top: 10px; left: 10px; width: 260px; height: 360px; background: #fff9db; border-radius: 15px; padding: 20px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); z-index: 5; box-sizing: border-box; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; transition: all 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275); opacity: 0; border-left: 5px solid #f1c40f; }
+        .close-memo { margin-top: 15px; font-size: 0.75rem; color: var(--dark-pink); text-transform: uppercase; letter-spacing: 1px; font-weight: bold; cursor: pointer; padding: 5px 10px; border: 1px solid var(--soft-pink); border-radius: 10px; }
+        .memory-box-container.active:hover { transform: none; }
+        .memory-box-container.active.swipe-right .memo-card { transform: translateX(290px) rotate(3deg); opacity: 1; }
+        .memory-box-container.active.swipe-left .memo-card { transform: translateX(-290px) rotate(-3deg); opacity: 1; }
+        .memory-box-container.active .card-cover { transform: translateY(-100%); }
+
+        @media (max-width: 800px) {
+            .memory-box-container.active.swipe-right .memo-card, .memory-box-container.active.swipe-left .memo-card { transform: translateY(300px); z-index: 12; }
+            .memory-section { padding-bottom: 450px; }
+            .polaroid-container { height: 700px; }
         }
 
-        #noBtn {
-            background-color: #fff;
-            color: var(--primary-pink);
-            border: 2px solid var(--soft-pink);
-        }
+        @keyframes bounce { 0%, 20%, 50%, 80%, 100% {transform: translateY(0);} 40% {transform: translateY(-10px);} }
+        .particle { position: absolute; pointer-events: none; animation: flyUp var(--d) linear forwards; opacity: 0; }
+        @keyframes flyUp { 0% { transform: translateY(110vh) rotate(0deg) scale(0.5); opacity: 1; } 100% { transform: translateY(-20vh) rotate(360deg) scale(var(--s)); opacity: 0; } }
+        .corner-flower { position: fixed; font-size: 3rem; opacity: 0.6; z-index: -1; }
 
-        .celebration {
-            display: none;
-            z-index: 20;
-        }
+        /* Menambahkan kursor hati ke seluruh halaman */
+html, body {
+    cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' style='font-size:16px'><text y='16'>❤️</text></svg>"), auto;
+}
 
-        .celebration h2 {
-            font-family: 'Sacramento', cursive;
-            font-size: 6rem;
-            color: var(--dark-pink);
-            margin: 0;
-            filter: drop-shadow(2px 4px 6px rgba(0,0,0,0.1));
-        }
+/* Memastikan tombol dan elemen klik tetap muncul kursor hati saat di-hover */
+button, .envelope-wrapper, .memory-card, .polaroid, .close-memo {
+    cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' style='font-size:16px'><text y='16'>❤️</text></svg>"), pointer !important;
+}
 
-        .celebration p {
-            font-size: 1.8rem;
-            color: #800f2f;
-            font-weight: 600;
-            margin: 10px 0;
-        }
+/* Styling Visualizer */
+.audio-visualizer {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    display: flex;
+    align-items: flex-end;
+    gap: 3px;
+    height: 40px;
+    z-index: 1000;
+    background: rgba(255, 255, 255, 0.2);
+    padding: 10px;
+    border-radius: 10px;
+    backdrop-filter: blur(5px);
+    opacity: 0; /* Sembunyi sebelum musik mulai */
+    transition: opacity 0.5s ease;
+}
 
-        .particle {
-            position: absolute;
-            pointer-events: none;
-            animation: flyUp var(--d) linear forwards;
-            opacity: 0;
-        }
+.bar {
+    width: 6px;
+    height: 10px;
+    background: var(--primary-pink);
+    border-radius: 3px;
+}
 
-        @keyframes flyUp {
-            0% { transform: translateY(100vh) rotate(0deg) scale(0.5); opacity: 1; }
-            100% { transform: translateY(-20vh) rotate(360deg) scale(var(--s)); opacity: 0; }
-        }
+/* Animasi Bar */
+@keyframes dance {
+    0% { height: 5px; }
+    50% { height: 35px; }
+    100% { height: 10px; }
+}
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
+.audio-visualizer.playing .bar {
+    animation: dance 1s infinite ease-in-out;
+}
 
-        .corner-flower {
-            position: fixed;
-            font-size: 3rem;
-            opacity: 0.6;
-            z-index: -1;
-        }
+/* Variasi durasi animasi agar terlihat natural */
+.bar:nth-child(1) { animation-delay: 0.1s; }
+.bar:nth-child(2) { animation-delay: 0.3s; }
+.bar:nth-child(3) { animation-delay: 0.6s; }
+.bar:nth-child(4) { animation-delay: 0.2s; }
+.bar:nth-child(5) { animation-delay: 0.5s; }
+
+   .memo-card {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    width: 260px;
+    height: 360px;
+    background: #fff9db;
+    border-radius: 15px;
+    padding: 20px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    z-index: 5;
+    box-sizing: border-box;
+    /* Perbaikan utama di bawah ini */
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* Teks tetap di tengah secara vertikal */
+    align-items: center;
+    text-align: center;
+    transition: all 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    opacity: 0;
+    border-left: 5px solid #f1c40f;
+    overflow-y: auto; /* Izinkan scroll jika teks kepanjangan */
+}
+
+/* Tambahkan ini agar paragraf di dalamnya punya ruang */
+.memo-card p {
+    margin: 0;
+    padding: 10px 0;
+    font-size: 0.9rem; /* Ukuran standar yang nyaman dibaca */
+    line-height: 1.6;
+    word-wrap: break-word; /* Memastikan kata panjang tidak keluar kotak */
+}
+
+#boxSecret .memo-card {
+    justify-content: flex-start; /* Mulai dari atas agar tidak terpotong jika panjang */
+    padding-top: 30px;
+}
+
+#boxSecret .memo-card p {
+    font-size: 0.85rem; /* Sedikit lebih kecil khusus pesan rahasia */
+}
     </style>
 </head>
-<body>
+<body onclick="showLoveToast(event)">
 
-    <audio id="mySong" loop>
-        <source src="musik.mp3" type="audio/mpeg">
-    </audio>
+    <audio id="mySong" loop><source src="musik.mp3" type="audio/mpeg"></audio>
 
     <div class="bg-ornaments" id="bgLayer">
         <span class="corner-flower" style="top: 10px; left: 10px;">🌸</span>
@@ -147,98 +269,326 @@
         <span class="corner-flower" style="bottom: 10px; right: 10px;">🎀</span>
     </div>
 
-    <div class="card" id="mainCard">
-        <h1>Jadi Valentine-ku, nona?</h1>
-        <div class="buttons">
-            <button id="yesBtn">Yaa! ❤️</button>
-            <button id="noBtn">Gaa mauu</button>
+    <div class="section" id="mainPage"> 
+        <div class="card">
+            <h1>Jadi Valentine-ku, nona?</h1>
+            <div class="buttons">
+                <button id="yesBtn">Yaa! ❤️</button>
+                <button id="noBtn">Gaa mauu</button>
+            </div>
         </div>
     </div>
 
     <div class="celebration" id="celebrationPage">
-        <div class="card">
-            <h2>Yeayyy! ❤️</h2>
-            <p>Aku orang paling beruntung!</p>
-            <p style="font-size: 2.5rem; color: var(--primary-pink);">I LOVE YOU SAYANGG!!! ✨</p>
+        <div class="section">
+            <div class="card">
+                <h2>Yeayyy! ❤️</h2>
+                <p>Aku orang paling beruntung!</p>
+                <p style="font-size: 2rem; color: var(--primary-pink); font-weight: bold;">I LOVE YOU SAYANGG!!! ✨</p>
+            </div>
+            <p class="scroll-hint">Scroll ke bawah ya sayang.. 👇</p>
         </div>
+
+        <div class="envelope-section">
+            <p class="instruction">Buka amplopnya !! 👇</p>
+            <div class="envelope-wrapper" id="envelopeWrapper">
+                <div class="flap"></div>
+                <div class="envelope-front"></div>
+                <div class="letter">
+                    <div class="title">Hai Cantik...</div>
+                    <div class="content">
+                        Happy Valentine Day My lovee, aku harap kamu senang di hari ini. Aku sayang banget sama mu dan semoga kedepannya tetap bersama denganmu. aku ga pandai merangkai kata tapi apa yang kutulis memang dari diriku sendiri. Aku sayang kamuuu, Love You My Princess ❤️✨
+                    </div>
+                    <div class="signature">
+                        <p class="from">Your Man</p>
+                        <p class="name">Noah</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="memory-section">
+            <p class="instruction" style="margin-bottom: 60px;">Klik kotaknya satu-satu ya.. ✨</p>
+            <div class="memory-grid" id="memoryGrid">
+                <div class="memory-box-container swipe-right" id="box1">
+                    <div class="memo-card">
+                        <p>"Ini waktu pertama kali kita pelayanan wl bareng. Kamu cantik sekali hari itu... ❤️"</p>
+                        <div class="close-memo" onclick="closeBox('box1')">Klik lagi untuk tutup</div>
+                    </div>
+                    <div class="memory-card" onclick="openBox('box1')">
+                        <div class="card-cover">🎁<p>Buka Aku</p></div>
+                        <img src="foto1.jpg" alt="Memory 1">
+                    </div>
+                </div>
+
+                <div class="memory-box-container swipe-right" id="box2">
+                    <div class="memo-card">
+                        <p>"Momen favorit aku pas kita lagi natalan bareng, walaupun kurang meriah sih natalnya hehe. Tapi aku bangga sekali punya kamuu. Stay with me ya? 💝"</p>
+                        <div class="close-memo" onclick="closeBox('box2')">Klik lagi untuk tutup</div>
+                    </div>
+                    <div class="memory-card" onclick="openBox('box2')">
+                        <div class="card-cover" style="background: #ff758f;">💝<p>My Favourite</p></div>
+                        <img src="foto2.jpg" alt="Memory 2">
+                    </div>
+                </div>
+
+                <div class="memory-box-container swipe-left" id="box3">
+                    <div class="memo-card">
+                        <p>"Yeayy aku KOM 100 waktu itu. Kamu jadi datang dan aku senang sekalii. Janji bakal KOM 200 bareng ya 🌹"</p>
+                        <div class="close-memo" onclick="closeBox('box3')">Klik lagi untuk tutup</div>
+                    </div>
+                    <div class="memory-card" onclick="openBox('box3')">
+                        <div class="card-cover" style="background: #c9184a;">🌹<p>Love Always</p></div>
+                        <img src="foto3.jpg" alt="Memory 3">
+                    </div>
+                </div>
+
+                <div class="memory-box-container swipe-left" id="boxSecret">
+    <div class="memo-card">
+        <p id="secretText">
+            "Aku mencintaimu dan selamanya begitu. Walaupun banyak rintangannya, aku mau kamu di semua kondisi. Maaf kalau aku belum seperti yang kamu inginkan, tapi selagi aku mampu, aku bakal terus berusaha. <br>Janjiku, aku ga akan ninggalin kamu."
+        </p>
+        <div class="close-memo" onclick="closeBox('boxSecret')">Tutup Pesan Rahasia</div>
+    </div>
+    <div class="memory-card" onclick="openSecretBox()">
+        <div class="card-cover" style="background: #4a4e69;">🔒<p>Pesan Rahasia</p></div>
+        <img src="foto4.jpg" alt="Secret Memory">
+    </div>
+</div>
+            </div>
+        </div>
+
+        <div class="gallery-section">
+            <p class="instruction">Geser-geser fotonya ya cantik! 📸</p>
+            <div class="polaroid-container" id="polaroidContainer">
+                <div class="polaroid" style="top: 20px; left: 50px; transform: rotate(-5deg);"><img src="galeri1.jpg"><span>My Girl 🌸</span></div>
+                <div class="polaroid" style="top: 150px; left: 300px; transform: rotate(8deg);"><img src="galeri2.jpg"><span>Our Date ✨</span></div>
+                <div class="polaroid" style="top: 50px; left: 550px; transform: rotate(-10deg);"><img src="galeri3.jpg"><span>Beautiful ❤️</span></div>
+                <div class="polaroid" style="top: 250px; left: 100px; transform: rotate(12deg);"><img src="galeri4.jpg"><span>Always You 🌷</span></div>
+                <div class="polaroid" style="top: 280px; left: 450px; transform: rotate(-4deg);"><img src="galeri5.jpg"><span>Love It 🎀</span></div>
+            </div>
+        </div>
+
+        <div class="counter-container">
+            <p style="font-size: 0.9rem; margin-bottom: 10px;">Waktu yang kita lalui bersama:</p>
+            <div class="timer">
+                <div class="timer-box"><span id="days">0</span><small>Hari</small></div>
+                <div class="timer-box"><span id="hours">0</span><small>Jam</small></div>
+                <div class="timer-box"><span id="minutes">0</span><small>Menit</small></div>
+                <div class="timer-box"><span id="seconds">0</span><small>Detik</small></div>
+            </div>
+        </div>
+
+        <p class="closing-text">Kita bakal sama terus yaa</p>
+
     </div>
 
     <script>
+        // --- TIMER LOGIC (Updated to 25 Sept, 01:00 AM) ---
+        // Format: Tahun-Bulan-TanggalTJam:Menit:Detik
+        const startDate = new Date("2024-09-25T01:00:00"); 
+
+        function updateTimer() {
+            const now = new Date();
+            const diff = now - startDate;
+            
+            if (diff > 0) {
+                document.getElementById('days').innerText = Math.floor(diff / (1000 * 60 * 60 * 24));
+                document.getElementById('hours').innerText = Math.floor((diff / (1000 * 60 * 60)) % 24);
+                document.getElementById('minutes').innerText = Math.floor((diff / 1000 / 60) % 60);
+                document.getElementById('seconds').innerText = Math.floor((diff / 1000) % 60);
+            }
+        }
+        setInterval(updateTimer, 1000);
+
+        // --- BUTTON & NAVIGATION LOGIC ---
         const yesBtn = document.getElementById('yesBtn');
         const noBtn = document.getElementById('noBtn');
-        const mainCard = document.getElementById('mainCard');
+        const mainPage = document.getElementById('mainPage');
         const celebrationPage = document.getElementById('celebrationPage');
         const bgLayer = document.getElementById('bgLayer');
         const song = document.getElementById('mySong');
+        const envelopeWrapper = document.getElementById('envelopeWrapper');
 
-        let scaleFactor = 1;
+        const loveMessages = [
+            "Kamu cantik banget hari ini! ✨", "I love you so much! ❤️", "Terima kasih sudah ada buat aku 🌹",
+            "Jangan lupa senyum yaa 😊", "You are my princess 👑", "Aku beruntung banget punya kamu 💖",
+            "Have a great day, My Love! 🌷", "Stay with me forever ya? 🎀", "Kangen kamu terus... ✨"
+        ];
+
+        function showLoveToast(event) {
+            if (celebrationPage.style.display !== 'flex') return;
+            const toast = document.createElement('div');
+            toast.className = 'love-toast';
+            toast.innerText = loveMessages[Math.floor(Math.random() * loveMessages.length)];
+            toast.style.left = event.clientX + 'px';
+            toast.style.top = event.clientY + 'px';
+            document.body.appendChild(toast);
+            setTimeout(() => toast.remove(), 2000);
+        }
 
         function spawnParticle(symbol, isBurst = false) {
             const particle = document.createElement('div');
             particle.className = 'particle';
             particle.innerHTML = symbol;
-            
             const size = Math.random() * (isBurst ? 3 : 1.5) + 1;
             const duration = Math.random() * 3 + 2;
-            
             particle.style.setProperty('--s', size);
             particle.style.setProperty('--d', duration + 's');
-            
             particle.style.left = Math.random() * 100 + 'vw';
             particle.style.fontSize = Math.random() * 20 + 20 + 'px';
-            
-            if(symbol === '❤️') {
-                const colors = ['#ff4d6d', '#ff758f', '#ff85a1', '#c9184a'];
-                particle.style.color = colors[Math.floor(Math.random() * colors.length)];
-            }
-
             bgLayer.appendChild(particle);
             setTimeout(() => particle.remove(), duration * 1000);
         }
 
         setInterval(() => {
-            const charms = ['❤️', '🌸', '✨', '☁️', '🌷'];
-            spawnParticle(charms[Math.floor(Math.random() * charms.length)]);
-        }, 500);
-
-        function playMusic() {
-            song.play().catch(error => console.log("Menunggu interaksi user untuk memutar musik"));
-        }
+            spawnParticle(['❤️', '🌸', '✨', '🌷'][Math.floor(Math.random() * 4)]);
+        }, 600);
 
         function moveButton() {
-            playMusic(); // Musik mulai saat tombol "No" disentuh/didekati
+            song.play().catch(() => {});
             const x = Math.random() * (window.innerWidth - noBtn.offsetWidth);
             const y = Math.random() * (window.innerHeight - noBtn.offsetHeight);
-            
             noBtn.style.position = 'fixed';
-            noBtn.style.left = x + 'px';
-            noBtn.style.top = y + 'px';
-            
-            scaleFactor += 0.4;
-            yesBtn.style.transform = `scale(${scaleFactor})`;
+            noBtn.style.left = x + 'px'; noBtn.style.top = y + 'px';
+            yesBtn.style.transform = `scale(${(parseFloat(yesBtn.style.transform.replace('scale(','')) || 1) + 0.3})`;
         }
 
-        // Event Laptop
         noBtn.addEventListener('mouseover', moveButton);
-
-        // Event HP agar tidak langsung klik
-        noBtn.addEventListener('touchstart', (e) => {
-            e.preventDefault();
-            moveButton();
-        });
+        noBtn.addEventListener('touchstart', (e) => { e.preventDefault(); moveButton(); });
 
         yesBtn.addEventListener('click', () => {
-            playMusic();
-            mainCard.style.display = 'none';
-            celebrationPage.style.display = 'block';
-            
-            for(let i = 0; i < 150; i++) {
-                setTimeout(() => {
-                    spawnParticle('❤️', true);
-                    if(i % 5 === 0) spawnParticle('✨', true);
-                }, i * 20);
-            }
+            song.play().catch(() => {});
+            mainPage.style.display = 'none';
+            celebrationPage.style.display = 'flex';
+            window.scrollTo(0,0);
+            updateTimer(); 
+            for(let i = 0; i < 100; i++) setTimeout(() => spawnParticle('❤️', true), i * 20);
         });
+
+        envelopeWrapper.addEventListener('click', (e) => {
+            e.stopPropagation();
+            envelopeWrapper.classList.toggle('open');
+        });
+
+        function openBox(boxId) {
+            event.stopPropagation();
+            document.querySelectorAll('.memory-box-container').forEach(box => {
+                if(box.id === boxId) box.classList.add('active');
+                else box.classList.add('hidden');
+            });
+        }
+
+        function closeBox(boxId) {
+            event.stopPropagation();
+            document.querySelectorAll('.memory-box-container').forEach(box => {
+                box.classList.remove('active');
+                box.classList.remove('hidden');
+            });
+        }
+
+        // --- DRAGGABLE POLAROID LOGIC ---
+        const polaroids = document.querySelectorAll('.polaroid');
+        let activePolaroid = null;
+        let startX, startY;
+
+        polaroids.forEach(pol => {
+            pol.addEventListener('mousedown', startDrag);
+            pol.addEventListener('touchstart', startDrag);
+        });
+
+        function startDrag(e) {
+            activePolaroid = e.target.closest('.polaroid');
+            const clientX = e.type === 'touchstart' ? e.touches[0].clientX : e.clientX;
+            const clientY = e.type === 'touchstart' ? e.touches[0].clientY : e.clientY;
+            startX = clientX - activePolaroid.offsetLeft;
+            startY = clientY - activePolaroid.offsetTop;
+            document.addEventListener('mousemove', drag);
+            document.addEventListener('touchmove', drag, {passive: false});
+            document.addEventListener('mouseup', endDrag);
+            document.addEventListener('touchend', endDrag);
+        }
+
+        function drag(e) {
+            if (!activePolaroid) return;
+            e.preventDefault();
+            const clientX = e.type === 'touchmove' ? e.touches[0].clientX : e.clientX;
+            const clientY = e.type === 'touchmove' ? e.touches[0].clientY : e.clientY;
+            activePolaroid.style.left = (clientX - startX) + 'px';
+            activePolaroid.style.top = (clientY - startY) + 'px';
+        }
+
+        function endDrag() {
+            activePolaroid = null;
+            document.removeEventListener('mousemove', drag);
+            document.removeEventListener('touchmove', drag);
+        }
+
+        document.addEventListener('click', (e) => {
+    for (let i = 0; i < 8; i++) {
+        const heart = document.createElement('div');
+        heart.innerText = '❤️';
+        heart.style.position = 'fixed';
+        heart.style.left = e.clientX + 'px';
+        heart.style.top = e.clientY + 'px';
+        heart.style.fontSize = Math.random() * 15 + 10 + 'px';
+        heart.style.pointerEvents = 'none';
+        heart.style.transition = 'all 1s ease-out';
+        heart.style.zIndex = '9999';
+        
+        document.body.appendChild(heart);
+        
+        const destinationX = (Math.random() - 0.5) * 200;
+        const destinationY = (Math.random() - 0.5) * 200;
+        
+        setTimeout(() => {
+            heart.style.transform = `translate(${destinationX}px, ${destinationY}px) rotate(${Math.random() * 360}deg)`;
+            heart.style.opacity = '0';
+        }, 10);
+        
+        setTimeout(() => heart.remove(), 1000);
+    }
+});
+        function openSecretBox() {
+    event.stopPropagation();
+    
+    // Ganti 'sayang' dengan password yang kamu mau (huruf kecil semua agar aman)
+    const passwordBenar = "25112025"; 
+    const inputUser = prompt("Masukkan kata sandi 8 digit untuk membuka pesan rahasia ini: ❤️ Hint : Tanggal jadian kita!!"
+    );
+
+    if (inputUser !== null) {
+        if (inputUser.toLowerCase() === passwordBenar) {
+            alert("Yeay! Password benar... ✨");
+            
+            // Logika membuka kotak (sama seperti openBox biasa)
+            document.querySelectorAll('.memory-box-container').forEach(box => {
+                if(box.id === 'boxSecret') box.classList.add('active');
+                else box.classList.add('hidden');
+            });
+        } else {
+            alert("Ups! Passwordnya salah. Coba diingat-ingat lagi ya sayang.. 😋");
+        }
+    }
+}
+
+        // Di dalam event listener yesBtn
+const visualizer = document.getElementById('visualizer');
+
+yesBtn.addEventListener('click', () => {
+    // ... kode yang sudah ada (song.play, dsb) ...
+    
+    // Aktifkan visualizer
+    visualizer.style.opacity = '1';
+    visualizer.classList.add('playing');
+});
     </script>
+    <div class="audio-visualizer" id="visualizer">
+    <div class="bar"></div>
+    <div class="bar"></div>
+    <div class="bar"></div>
+    <div class="bar"></div>
+    <div class="bar"></div>
+</div>
 </body>
-</html> 
+</html>
